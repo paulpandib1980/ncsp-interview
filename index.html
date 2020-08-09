@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+		body {
+			margin: 0px;
+		}
+        .cardContainer {
+            background: #EFEFEF;
+            border-top: 5px solid #BFBFBF;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: normal;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+			height: 100vh;
+        }
+
+        .cardLeftContainer {
+            flex: 70%;
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+
+        .cardLeftContainer>div {
+            color: #fff;
+            width: 30%;
+            height: auto;
+            padding: 0px;
+            margin: 0px;
+            text-align: center;
+            line-height: 1.5em;
+            font-size: 110px;
+            font-weight: 500;
+            border: 0px solid #000;
+        }
+
+        .side {
+            flex: 30%;
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card1,
+        .card8 {
+            background: #6F98A8;
+        }
+
+        .card2,
+        .card4 {
+            background: #72C3DC;
+        }
+
+        .card3,
+        .card5,
+        .card9 {
+            background: #2F454E;
+        }
+
+        .card6,
+        .card7 {
+            background: #BFBFBF;
+        }
+
+        h1 {
+            font-size: 20px;
+            line-height: 1em;
+            text-align: center;
+        }
+
+        h5 {
+			font-size: 16px;
+			line-height: 1em;
+			text-align: center;
+			margin: 20px auto;
+		}
+
+        button {
+            background: #72c3dc;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 1em;
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 0px;
+            border-bottom: 5px solid #6f98a8;
+            border-radius: 1em;
+            width: 60%;
+            cursor: pointer;
+            margin-bottom: 1em;
+        }
+
+        @media only screen and (max-width: 720px) {
+            .cardLeftContainer {
+                flex: 100% !important;
+				order: 2;
+            }
+			h5 {
+			order: 3;
+			}
+            .cardLeftContainer>div {
+                color: #000;
+                width: 100%;
+                height: 50px;
+                padding: 0px;
+                margin: 5px 0px;
+                text-align: center;
+                line-height: 2em;
+                font-size: 24px;
+                font-weight: 600;
+                border: 0px solid #000;
+                background: #f1f1f1;
+            }
+            .side {
+                flex: 100%;
+                text-align: center;
+                background: #fff;
+				order: 1;
+            }
+
+            .card1:before,
+            .card8:before {
+                content: "";
+                display: inline;
+                background: #6F98A8;
+                width: 10px;
+                height: 50px;
+                left: 9px;
+                position: absolute;
+            }
+
+            .card2:before,
+            .card4:before {
+                content: "";
+                display: inline;
+                background: #72C3DC;
+                width: 10px;
+                height: 50px;
+                left: 9px;
+                position: absolute;
+            }
+
+            .card3:before,
+            .card5:before,
+            .card9:before {
+                content: "";
+                display: inline;
+                background: #2F454E;
+                width: 10px;
+                height: 50px;
+                left: 9px;
+                position: absolute;
+            }
+
+            .card6:before,
+            .card7:before {
+                content: "";
+                display: inline;
+                background: #BFBFBF;
+                width: 10px;
+                height: 50px;
+                left: 9px;
+                position: absolute;
+            }
+
+            h1 {
+                font-size: 20px;
+                line-height: 1em;
+                text-align: center;
+                background: #333333;
+                padding: 1em 0px;
+                color: #fff;
+                font-weight: 500;
+				margin-top: 0px;
+            }
+
+            .cardContainer {
+                background: #fff;
+                border-top: 0px solid #BFBFBF;
+				margin: 0px 10px;
+            }
+
+            button {
+                width: 25%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Shuffle and Sort</h1>
+    <div class="cardContainer">
+        <div class="cardLeftContainer" id="shuffle">
+            <div class="card1">1</div>
+            <div class="card2">2</div>
+            <div class="card3">3</div>
+            <div class="card4">4</div>
+            <div class="card5">5</div>
+            <div class="card6">6</div>
+            <div class="card7">7</div>
+            <div class="card8">8</div>
+            <div class="card9">9</div>
+        </div>
+        <div class="side">
+            <button type="button" onclick="shuffle()">Shuffle</button>
+            <button type="button" onclick="sort()">Sort</button>
+
+        </div>
+    
+    <h5>Shuffle and Sort by Paulpandi</h5>
+	</div>
+    <script>
+        let parent = document.getElementById('shuffle');
+        let children = document.getElementById('shuffle').children;
+        let frag = document.createDocumentFragment();
+		
+		// To Shuffle the cards
+        function shuffle() {
+            while (parent.children.length) {
+                frag.appendChild(parent.children[Math.floor(Math.random() * parent.children.length)]);
+            }
+            parent.appendChild(frag);
+        }
+		// To Sort the Cards
+        function sort() {
+            let toSort = children;
+            toSort = Array.prototype.slice.call(toSort, 0);
+
+            toSort.sort(function (a, b) {
+                let aord = +a.innerHTML;
+                let bord = +b.innerHTML;
+                return (aord > bord) ? 1 : -1;
+            });
+            appendDivs(toSort);
+        }
+
+		// To append the divs to the DOM
+        function appendDivs(allDivs) {
+            parent.innerHTML = "";
+            for (let i = 0, l = allDivs.length; i < l; i++) {
+                parent.appendChild(allDivs[i]);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
